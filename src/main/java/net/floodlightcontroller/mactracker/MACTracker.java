@@ -41,8 +41,10 @@ public class MACTracker implements IOFMessageListener, IFloodlightModule {
 
 	@Override
 	public boolean isCallbackOrderingPostreq(OFType type, String name) {
-		// TODO Auto-generated method stub
-		return false;
+		// Tell Floodlight that MACTracker should run before Forwarding module
+		// In receive(), when receiving packetIn that's not meant to Forwarding, return a Command.STOP
+		return (type.equals(OFType.PACKET_IN) && (name.equals("forwarding")));
+		
 	}
 
 	@Override
